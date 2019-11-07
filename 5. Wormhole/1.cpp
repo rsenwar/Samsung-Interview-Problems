@@ -12,12 +12,6 @@ int distance(int sx,int sy,int dx,int dy) {
 void cal(int sx,int sy,int dx,int dy,int dis) {
 
 	ans=min(ans,distance(sx,sy,dx,dy)+dis);
-	if(ans==159 && f==0) {
-    f = 1;
-		for(int i=0;i<10;i++)
-			cout<<mask[i]<<" ";
-		cout<<endl;
-	}
 	for(int i=0;i<n;i++) {
 		if(mask[i]==0) {
 			mask[i]=1;
