@@ -1,77 +1,77 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-
-int n, B[20], maxScore = 0, visited[20];
-void findScore(int p[]) {
-    int i, t, l, r, score = 0;
-    for(i=0;i<n;i++) {
-        t = p[i];
-        visited[t] = 1;
-        r = t + 1;
-        l = t - 1;
-        while(r <= n) {
-            if(r == n) {
-                r = -1;
-                break;
-            } else if(visited[r] == 1) {
-                r++;
-            } else {
-                r = B[r];
-                break;
-            }
-        }
-        while(l >= -1) {
-            if(l == -1) {
-                l = -1;
-                break;
-            } else if(visited[l] == 1) {
-                l--;
-            } else {
-                l = B[l];
-                break;
-            }
-        }
-        if(l == -1 && r == -1)
-            score += B[t];
-        else if(l == -1) {
-            score += r;
-        } else if(r == -1) {
-            score += l;
-        } else {
-            score += l * r;
-        }
-    }
-    if(score > maxScore) {
-        maxScore = score;
-    }
-}
-
-void permute(int p[], int l, int r) {
-    if(l == r) {
-        findScore(p);
-        for(int i=0;i<n;i++) {
-            visited[i] = 0;
-        }
+int n,ar[20],visited[20],max_ans;
+void fun(int shot,int ans)
+{
+    if(shot==n)
+    {
+        // cout<<ans<<"ans"<<endl;
+        max_ans=max(max_ans,ans);
         return;
-    } else {
-        for(int i=l;i<=r;i++) {
-            swap(p[i], p[l]);
-            permute(p, l+1, r);
-            swap(p[i], p[l]);
+    }
+    int cr_ans=ans;
+    for(int i=0;i<n;i++)
+    {
+        if(!visited[i])
+        {
+                visited[i]=1;
+                int rf=0,lf=0,rightvalue=1,leftvalue=1;
+                for(int j=i-1;j>=0;j--)
+                {
+                    if(visited[j]==0)
+                    {
+                        lf=1;
+                        leftvalue=ar[j];
+                        break;
+                    }
+                }
+                for(int j=i+1;j<n;j++)
+                {
+                    if(visited[j]==0)
+                    {
+                        rf=1;
+                        rightvalue=ar[j];
+                        break;
+                    }
+                }
+                if(lf==1 && rf==1)
+                {
+                    ans=ans+leftvalue*rightvalue;
+                }
+                else if(lf==0 && rf==1)
+                {
+                    ans=ans+rightvalue;
+                }
+                else if(lf==1 && rf==0)
+                {
+                    ans=ans+leftvalue;
+                }
+                else 
+                {
+                    ans=ans+ar[i];
+                }
+                fun(shot+1,ans);
+                ans=cr_ans;
+                visited[i]=0;
+               
+            
+             
+            
+            
         }
     }
 }
-
-int main() {
-    cin >> n;
-    int i, p[n];
-    for(i=0;i<n;i++) {
-        cin >> B[i];
-        p[i] = i;
-        visited[i] = 0;
+int main()
+{
+    cin>>n;
+    for(int i=0;i<n;i++)
+    {
+        cin>>ar[i];
+        visited[i]=0;
     }
-    permute(p, 0, n-1);
-    cout << maxScore << endl;
+    max_ans=-99;
+    fun(0,0);
+    cout<<max_ans<<endl;
     return 0;
+    
 }
-
