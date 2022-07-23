@@ -21,10 +21,20 @@ int main() {
         string dest = getPoint(dx, dy);
         adj[source].push_back({dest, getCost(sx, sy, dx, dy)});
         adj[dest].push_back({source, getCost(dx, dy, sx, sy)});
+        set<pair<string, vector<int>>> points;
         for(int i=0;i<n;i++){
             cin>>px>>py>>qx>>qy>>c; 
             string start = getPoint(px, py);
             string end = getPoint(qx, qy);
+            for(auto currPoint: points) {
+                int p1x = currPoint.second[0], p1y = currPoint.second[1];
+                adj[start].push_back({currPoint.first, getCost(px, py, p1x, p1y)});
+                adj[currPoint.first].push_back({start, getCost(px, py, p1x, p1y)});
+                adj[end].push_back({currPoint.first, getCost(qx, qy, p1x, p1y)});
+                adj[currPoint.first].push_back({end, getCost(qx, qy, p1x, p1y)});
+            }
+            points.insert({start, {px, py}});
+            points.insert({end, {qx, qy}});
             adj[start].push_back({end, c});
             adj[end].push_back({start, c});
             adj[source].push_back({start, getCost(sx, sy, px, py)});
