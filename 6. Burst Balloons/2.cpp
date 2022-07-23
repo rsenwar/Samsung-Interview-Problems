@@ -28,7 +28,7 @@ int main() // driver function
       arr[0]=1 && arr[n+1]=1 
       cin>>n; 
       for(int i=1;i<=n;i++) 
-         cin>>arr[i]; */
+         cin>>arr[i]; 
   
     cout << getmaxscore(arr, 0, n + 1, n + 1) << "\n"; 
   
